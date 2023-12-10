@@ -9,8 +9,10 @@ const Products = sequalize.define('Products', {
     },
     name: DataTypes.STRING,
     variant: DataTypes.STRING,
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
+    ingredients: DataTypes.STRING,
+    image: DataTypes.STRING,
+    created_at: DataTypes.DATE,
+    updated_at: DataTypes.DATE,
 });
 
 module.exports = { Products };

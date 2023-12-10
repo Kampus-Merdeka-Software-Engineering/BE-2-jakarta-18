@@ -1,10 +1,15 @@
 const { Products } = require('../models'); 
 // Pastikan Anda mengganti dengan nama model dan path yang sesuai
 
-const getAllProductsService = async () => {
+const getAllProductsService = async (productName) => {
     try {
-        // Menggunakan model Sequelize untuk mengambil semua data makanan
-        const productlist = await Products.findAll();
+        // Menetapkan kondisi where berdasarkan nama produk
+        const whereCondition = productName ? { name: productName } : {};
+
+        // Menggunakan model Sequelize untuk mengambil data makanan berdasarkan kondisi where
+        const productlist = await Products.findAll({
+            where: whereCondition,
+        });
 
         return productlist;
     } catch (error) {
@@ -32,5 +37,4 @@ const createProductsService = async (productsData) => {
 module.exports = {
     getAllProductsService,
     createProductsService,
-    // Tambahkan fungsi CRUD lainnya jika diperlukan
 };

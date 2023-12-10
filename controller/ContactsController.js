@@ -1,12 +1,11 @@
-const { getAllProductsService, createProductsService } = require('../services/ProductsService');
+const { getAllContactsService, createContactsService } = require('../services/ContactsService');
 
-const getAllProducts = async (req, res) => {
+const getAllContacts = async (req, res) => {
     try {
-        const { productName } = req.params;
-        const productlist = await getAllProductsService(productName);
+        const contactlist = await getAllContactsService();
 
         res.status(200).json({
-            data: productlist,
+            data: contactlist,
             message: "Sukses mengambil data",
         });
     } catch (error) {
@@ -15,11 +14,11 @@ const getAllProducts = async (req, res) => {
             message: "Gagal mengambil data",
         });
     }
-};
+}
 
-const createProduct = async (req, res) => {
+const createContact = async (req, res) => {
     try {
-        const result = await createProductsService(req.body);
+        const result = await createContactsService(req.body);
 
         res.status(201).json({
             message: "Berhasil Menambahkan Data",
@@ -36,7 +35,7 @@ const createProduct = async (req, res) => {
 // Implementasikan fungsi lainnya jika diperlukan
 
 module.exports = {
-    getAllProducts,
-    createProduct,
+    getAllContacts,
+    createContact,
     // Tambahkan fungsi lainnya jika diperlukan
 };
