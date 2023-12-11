@@ -1,15 +1,12 @@
-const { Products } = require('../models'); 
-// Pastikan Anda mengganti dengan nama model dan path yang sesuai
+const { Products } = require('../models');
 
 const getAllProductsService = async (productName) => {
     try {
-        // Menetapkan kondisi where berdasarkan nama produk
-        const whereCondition = productName ? { name: productName } : {};
+        // Jika productName tidak disediakan, ambil semua produk yang belum di-soft delete
+        const condition = productName ? { name: productName, deleted_at: null } : { deleted_at: null };
 
-        // Menggunakan model Sequelize untuk mengambil data makanan berdasarkan kondisi where
-        const productlist = await Products.findAll({
-            where: whereCondition,
-        });
+        // Menggunakan model Sequelize untuk mengambil data produk berdasarkan kondisi where
+        const productlist = await Products.findAll({ where: condition });
 
         return productlist;
     } catch (error) {
@@ -19,10 +16,10 @@ const getAllProductsService = async (productName) => {
     }
 };
 
-const createProductsService = async (productsData) => {
+const createProductsService = async (productData) => {
     try {
-        // Menggunakan model Sequelize untuk membuat data makanan baru
-        const newProduct = await Products.create(productsData);
+        // Menggunakan model Sequelize untuk membuat data produk baru
+        const newProduct = await Products.create(productData);
 
         return newProduct;
     } catch (error) {
@@ -32,9 +29,49 @@ const createProductsService = async (productsData) => {
     }
 };
 
-// Mungkin ada implementasi lain untuk fungsi CRUD lainnya
+const updateProductsService = async (id, productData) => {
+    try {
+        const product = await Products.findByPk(id);
+
+        if (!product) {
+            throw new Error("Product not found");
+        }
+
+        // Mengisi kolom updated_at dengan waktu saat ini
+        productData.updated_at = new Date();
+
+        // Melakukan pembaruan pada data produk
+        await product.update(productData);
+
+        return product;
+    } catch (error) {
+        console.error('Error in updateProductsService:', error);
+        throw error;
+    }
+};
+
+const deleteProductsService = async (id) => {
+    try {
+        // Menggunakan model Sequelize untuk mengambil data produk berdasarkan ID
+        const product = await Products.findByPk(id);
+
+        if (!product) {
+            throw new Error("Product not found");
+        }
+
+        // Soft delete dengan mengatur nilai deleted_at
+        await product.update({ deleted_at: new Date() });
+
+        return { id, message: "Product soft deleted successfully" };
+    } catch (error) {
+        console.error('Error in deleteProductService:', error);
+        throw error;
+    }
+};
 
 module.exports = {
     getAllProductsService,
     createProductsService,
+    updateProductsService,
+    deleteProductsService
 };

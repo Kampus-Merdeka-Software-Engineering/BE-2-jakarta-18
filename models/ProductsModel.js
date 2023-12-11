@@ -11,8 +11,21 @@ const Products = sequalize.define('Products', {
     variant: DataTypes.STRING,
     ingredients: DataTypes.STRING,
     image: DataTypes.STRING,
-    created_at: DataTypes.DATE,
+    created_at: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+        allowNull: false,
+        field: 'created_at',
+    },
     updated_at: DataTypes.DATE,
+    deleted_at: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+        allowNull: true
+    }
+}, {
+    timestamps: false,
+    underscored: true
 });
 
 module.exports = { Products };

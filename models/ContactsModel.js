@@ -29,11 +29,20 @@ const Contacts = sequelize.define('Contacts', {
     created_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
+        allowNull: false,
+        field: 'created_at',
     },
     updated_at: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+        allowNull: true
     },
+    deleted_at: {
+        type: DataTypes.DATE,
+        allowNull: true
+    }
+}, {
+    timestamps: false,
+    underscored: true
 });
 
 module.exports = { Contacts };

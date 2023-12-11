@@ -32,10 +32,7 @@ const createContact = async (req, res) => {
     }
 }
 
-// Implementasikan fungsi lainnya jika diperlukan
-
 module.exports = {
     getAllContacts,
     createContact,
-    // Tambahkan fungsi lainnya jika diperlukan
 };

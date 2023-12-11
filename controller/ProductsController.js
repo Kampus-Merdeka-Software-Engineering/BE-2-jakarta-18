@@ -1,12 +1,17 @@
-const { getAllProductsService, createProductsService } = require('../services/ProductsService');
+const {
+    getAllProductsService,
+    createProductsService,
+    updateProductsService,
+    deleteProductsService
+} = require('../services/ProductsService');
 
 const getAllProducts = async (req, res) => {
     try {
         const { productName } = req.params;
-        const productlist = await getAllProductsService(productName);
+        const productList = await getAllProductsService(productName);
 
         res.status(200).json({
-            data: productlist,
+            data: productList,
             message: "Sukses mengambil data",
         });
     } catch (error) {
@@ -31,12 +36,49 @@ const createProduct = async (req, res) => {
             message: "Gagal Menambahkan Data",
         });
     }
-}
+};
 
-// Implementasikan fungsi lainnya jika diperlukan
+const updateProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await updateProductsService(id, req.body);
+
+        res.status(200).json({
+            message: "Berhasil Memperbarui Data",
+            data: result,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Gagal Memperbarui Data",
+        });
+    }
+};
+
+const deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const result = await deleteProductsService(id);
+
+        // Jika Anda ingin menampilkan data setelah soft delete, Anda dapat memanggil fungsi getAllProductsService
+        const productlist = await getAllProductsService();
+
+        res.status(200).json({
+            data: productlist,
+            message: `Product with ID ${result.id} deleted successfully`,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Failed to delete product",
+        });
+    }
+};
 
 module.exports = {
     getAllProducts,
     createProduct,
-    // Tambahkan fungsi lainnya jika diperlukan
+    updateProduct,
+    deleteProduct,
 };
