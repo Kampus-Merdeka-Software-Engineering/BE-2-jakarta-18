@@ -14,13 +14,11 @@ const Products = sequalize.define('Products', {
     created_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
-        allowNull: false,
-        field: 'created_at',
+        allowNull: false
     },
     updated_at: DataTypes.DATE,
     deleted_at: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
         allowNull: true
     }
 }, {
